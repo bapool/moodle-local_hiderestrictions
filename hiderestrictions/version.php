@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_hiderestrictions';
-$plugin->version = 2024120301;
+$plugin->version = 2025120301;
 $plugin->requires = 2024042200; // Moodle 4.5
 $plugin->maturity = MATURITY_BETA;
-$plugin->release = 'v1.2';
+$plugin->release = 'v1.3';

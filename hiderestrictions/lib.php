@@ -68,11 +68,13 @@ function local_hiderestrictions_before_standard_html_head() {
     $buttontext = get_string('restrictions', 'local_hiderestrictions');
     
     // Determine icon based on current state
+    // When hidden: use eye-slash (closed eye) - matches Moodle convention
+    // When visible: use eye (open eye) - matches Moodle convention
     if ($hidden) {
-        $iconclass = 'fa-eye';
+        $iconclass = 'fa-eye-slash';
         $title = get_string('showrestrictions', 'local_hiderestrictions');
     } else {
-        $iconclass = 'fa-eye-slash';
+        $iconclass = 'fa-eye';
         $title = get_string('hiderestrictions', 'local_hiderestrictions');
     }
     
@@ -167,10 +169,10 @@ function local_hiderestrictions_extend_navigation_course($navigation, $course, $
     // Determine button text
     if ($hidden) {
         $text = get_string('showrestrictions', 'local_hiderestrictions');
-        $icon = new pix_icon('t/hide', '');
+        $icon = new pix_icon('t/show', '');
     } else {
         $text = get_string('hiderestrictions', 'local_hiderestrictions');
-        $icon = new pix_icon('t/show', '');
+        $icon = new pix_icon('t/hide', '');
     }
     
     // Add to secondary navigation
