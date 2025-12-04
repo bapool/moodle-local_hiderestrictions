@@ -19,15 +19,21 @@ By default, restrictions are visible to all teachers. Each teacher can
 individually toggle the visibility on/off, and their preference is saved 
 across all sessions.
 
+The toggle button only appears in courses where completion tracking is enabled,
+as restrictions are typically only used with completion tracking.
+
 
 FEATURES
 --------
-* Toggle button accessible from course secondary navigation
+* Floating toggle button visible on all course pages for easy access
+* Only appears in courses with completion tracking enabled
 * Individual user preferences - each teacher's choice is saved independently
 * Works on both main course pages and within course sections
 * Restrictions remain visible to students - only affects teacher view
-* Simple on/off toggle similar to "Turn editing on/off"
+* Restrictions remain visible in activity settings pages for editing
+* Simple icon-based toggle with hover tooltips
 * Default setting: restrictions visible (teachers can hide if desired)
+* Also accessible via course "More" menu for alternative access
 
 
 INSTALLATION
@@ -37,32 +43,44 @@ INSTALLATION
 2. Upload to your Moodle installation:
    - Copy the 'hiderestrictions' folder to: moodle/local/
 
-3. Set proper file permissions (example for Ubuntu/Linux):
+3. Ensure the language file is in the correct location:
+   - Language file should be at: moodle/local/hiderestrictions/lang/en/local_hiderestrictions.php
+
+4. Set proper file permissions (example for Ubuntu/Linux):
    chmod -R 755 /path/to/moodle/local/hiderestrictions
    chown -R www-data:www-data /path/to/moodle/local/hiderestrictions
 
-4. Log in to Moodle as an administrator
+5. Log in to Moodle as an administrator
 
-5. Navigate to: Site administration → Notifications
+6. Navigate to: Site administration → Notifications
 
-6. Moodle will detect the new plugin and prompt you to install it
+7. Moodle will detect the new plugin and prompt you to install it
 
-7. Click "Upgrade Moodle database now"
+8. Click "Upgrade Moodle database now"
 
-8. Purge all caches: Site administration → Development → Purge all caches
+9. Purge all caches: Site administration → Development → Purge all caches
+   Or via CLI: php /path/to/moodle/admin/cli/purge_caches.php
 
 
 USAGE
 -----
 1. Navigate to any course as a teacher or course creator
 
-2. Look for the toggle button in the course navigation menu:
-   - "Restrictions are shown" (click to hide restrictions)
-   - "Restrictions are hidden" (click to show restrictions)
+2. The course must have completion tracking enabled:
+   - Go to Course settings → Completion tracking → Enable "Yes"
 
-3. Click the toggle to switch between showing and hiding restrictions
+3. Look for the floating toggle button in the bottom-right corner of the page:
+   - Eye-slash icon + "Restrictions" = restrictions are visible (click to hide)
+   - Eye icon + "Restrictions" = restrictions are hidden (click to show)
 
-4. Your preference is automatically saved and will persist across sessions
+4. Click the toggle to switch between showing and hiding restrictions
+
+5. Your preference is automatically saved and will persist across sessions
+
+6. The toggle is also available in the course "More" menu for alternative access
+
+7. Note: Restrictions are always visible when editing activity settings,
+   regardless of the toggle state
 
 
 CONFIGURATION
@@ -81,46 +99,87 @@ REQUIREMENTS
 * Moodle 4.5 or higher
 * PHP 8.0 or higher
 * Teacher or course creator role with moodle/course:update capability
+* Course must have completion tracking enabled for toggle to appear
 
 
 COMPATIBILITY
 -------------
-* Tested with Moodle 4.5
+* Tested with Moodle 4.5.7
 * Compatible with Boost and Academi themes
 * Should work with most standard Moodle themes
+* Floating button positioned to avoid conflicts with page content
 
 
 TECHNICAL DETAILS
 -----------------
 The plugin uses:
 * CSS injection to hide restriction elements when toggled
+* Page type detection to apply only to course view pages
+* Completion tracking check - only displays in courses with completion enabled
 * User preferences API to store individual teacher settings
-* Navigation API to add the toggle button to course navigation
+* Navigation API to add the toggle button to course "More" menu
+* Floating button with Font Awesome icons for easy access
 * Session key verification for security
 
-Hidden elements include:
+The plugin only affects the main course view pages (topics, weeks, single 
+activity formats). It does NOT hide restrictions on:
+* Activity and resource settings pages
+* Module editing forms
+* Other administrative pages
+
+Hidden elements on course view include:
 * Activity availability information
 * "Not available unless" messages
 * Restriction badges and icons
 * Completion and access restriction details
+
+Language strings:
+All user-visible text is stored in language files for easy translation:
+* Button text: "Restrictions"
+* Tooltips: "Hide Restrictions" / "Show Restrictions"
+* Location: lang/en/local_hiderestrictions.php
 
 
 TROUBLESHOOTING
 ---------------
 If the toggle button doesn't appear:
 1. Verify you have teacher/editing permissions in the course
-2. Clear all Moodle caches
-3. Check browser console for JavaScript errors
-4. Ensure plugin files are in: moodle/local/hiderestrictions/
+2. Check that completion tracking is enabled in the course settings
+3. Clear all Moodle caches (Web UI or CLI)
+4. Check browser console for JavaScript errors
+5. Ensure plugin files are in: moodle/local/hiderestrictions/
 
 If restrictions don't hide when toggled:
 1. Clear browser cache and reload the page
-2. Purge all Moodle caches
+2. Purge all Moodle caches (Web UI or CLI)
 3. Verify CSS is loading (check browser developer tools)
+
+If restrictions are hidden in activity settings:
+1. This should not occur in version 1.2+
+2. Verify you have the latest version of lib.php
+3. Purge all caches after updating
+
+If button appears in courses without completion tracking:
+1. Verify you have version 1.2+
+2. Purge all caches after updating
 
 
 CHANGELOG
 ---------
+Version 1.2 (2024-12-03)
+* Added: Floating toggle button in bottom-right corner for easy access
+* Added: Toggle only appears in courses with completion tracking enabled
+* Changed: Button now displays icon + "Restrictions" (simplified text)
+* Enhanced: Full action text appears in hover tooltip
+* Enhanced: All text now properly uses language strings
+* Improved: Better user experience with always-visible toggle button
+
+Version 1.1 (2024-12-03)
+* Fixed: Restrictions now remain visible in activity settings pages
+* Improved: Added page type detection to limit scope to course view only
+* Enhanced: More specific CSS selectors to target only course content area
+* Updated: Tested with Moodle 4.5.7
+
 Version 1.0 (2024-09-30)
 * Initial release
 * Toggle button in course navigation
