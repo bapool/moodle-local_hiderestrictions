@@ -98,14 +98,15 @@ function local_hiderestrictions_before_standard_html_head() {
         </style>';
     }
     
-    // Add floating toggle button
+    // Add floating toggle button with theme colors
     $output .= '<style>
         .hiderestrictions-toggle-btn {
             position: fixed;
             bottom: 20px;
             right: 20px;
             z-index: 9999;
-            background-color: #0f6cbf;
+            /* Use theme primary color variables with fallback */
+            background-color: var(--primary, #0f6cbf);
             color: white;
             border: none;
             border-radius: 50px;
@@ -121,7 +122,8 @@ function local_hiderestrictions_before_standard_html_head() {
             gap: 8px;
         }
         .hiderestrictions-toggle-btn:hover {
-            background-color: #0a5596;
+            /* Use theme secondary color on hover with fallback */
+            background-color: var(--secondary, #6c757d);
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             color: white;
             text-decoration: none;
